@@ -172,6 +172,18 @@ function countStatsSum(hero) {
     statsSum += hero.stats.int;
   }
   }
+  if (enemyHero) {
+    if (enemyHero.constructor.name === "Mage") {
+      statsSum += hero.stats.str*0.75;
+      statsSum += hero.stats.int * 2;
+  } else if (enemyHero.constructor.name === "Knight") {
+      statsSum += hero.stats.str*2;
+      statsSum += hero.stats.int *0.75;
+  } else {
+    statsSum += hero.stats.str;
+    statsSum += hero.stats.int;
+  }
+  }
   statsSum += hero.stats.agi;
   statsSum += hero.healthPoints;
 
