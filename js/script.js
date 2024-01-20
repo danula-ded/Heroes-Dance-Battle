@@ -4,7 +4,7 @@
 const gameParameters = {
   MAX_LEVEL: 10, //максимальный уровень героя
   MAX_STAT: 99, //минимальный уровень параметра героя
-  MIN_STAT: 10, //минимальный уровень параметка для умения
+  MIN_STAT: 10, //минимальный уровень параметра для умения
 };
 
 //объект классов игры
@@ -159,8 +159,19 @@ getEnemyButton.onclick = () => {
 function countStatsSum(hero) {
   let statsSum = 0;
   // Последовательно прибавляем в переменную statsSum значения характеристик из объекта hero
-  statsSum += hero.stats.str;
-  statsSum += hero.stats.int;
+    //но значения получаемых очков за классовые характеристики больше
+  if (playerHero) {
+    if (playerHero.constructor.name === "Mage") {
+      statsSum += hero.stats.str*0.75;
+      statsSum += hero.stats.int * 2;
+  } else if (playerHero.constructor.name === "Knight") {
+      statsSum += hero.stats.str*2;
+      statsSum += hero.stats.int *0.75;
+  } else {
+    statsSum += hero.stats.str;
+    statsSum += hero.stats.int;
+  }
+  }
   statsSum += hero.stats.agi;
   statsSum += hero.healthPoints;
 
@@ -200,3 +211,21 @@ function arena(firstHero, secondHero) {
 startBattleButton.onclick = () => {
   arena(playerHero, enemyHero);
 };
+
+
+
+
+doSkillButton.onclick = () => {
+  if (playerHero) {
+    if (playerHero.constructor.name === "Mage") {
+      playerHero.healHero(playerHero);
+  } else if (playerHero.constructor.name === "Knight") {
+    playerHero.gainAgility(playerHero);
+  } else {
+    console.log("Упс! Произошла какая-то ошибка!");
+  }
+} else {
+  alert("Сначала добавьте игрока!");
+}
+displayPlayerHero(playerHero);
+}; 
